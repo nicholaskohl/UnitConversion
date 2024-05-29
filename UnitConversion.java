@@ -1,20 +1,37 @@
 import javax.swing.*;
 import java.awt.event.*;
+import java.util.HashMap;
 public class UnitConversion implements ActionListener{
-   JFrame frame;
-   JTextField input,output;
-   JButton button;
-   JComboBox combo, combo2;
+   private JFrame frame;
+   private JTextField input,output;
+   private JButton button;
+   private JComboBox combo, combo2;
+   private HashMap<String, Double> length = new HashMap<>();
+   
    public static void main(String args[])
    {
       UnitConversion converter = new UnitConversion();
+      converter.innit();
       converter.makeui();
+      
       
 
    }
+   public  void innit()
+   {// centimeter 0.01 inch 0.0254 mile 1609.35 yard 0.9144 milimeter 0.001 nanometer 0.000000001
+   length.put("kilometer", 1000.0);
+   length.put("meter", 1.0);
+   length.put("centimeter", 0.01);
+   length.put("inch", 0.0254);
+   length.put("mile", 1609.35);
+   length.put("yard", 0.9144);
+   length.put("milimeter",0.001);
+   length.put("nanometer", 0.000000001);
+   length.put("feet", 0.3048);
+   }
    public void makeui(){
    frame = new JFrame("Select Units");
-   String units[] = {"kilometer","meter","centimeter","inch","mile","yard","milimeter","nanometer"};
+   String units[] = {"kilometer","meter","centimeter","inch","mile","yard","milimeter","nanometer","feet"};
    combo = new JComboBox(units);
    combo2 = new JComboBox(units);
    combo.setBounds(50,50,125,20);
@@ -36,80 +53,16 @@ public class UnitConversion implements ActionListener{
    frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
    
    }
-   public double toMeters(double inner)// need to add "inch","mile","yard","milimeter","nanometer"
+   public double toMeters(double inner)// centimeter 0.01 inch 0.0254 mile 1609.35 yard 0.9144 milimeter 0.001 nanometer 0.000000001
    {
-      if (combo.getSelectedItem() == "meter")
-         {
-            return inner;
-         }
-      else if (combo.getSelectedItem() == "kilometer")
-         {
-            return inner * 1000;
-         }
-      else if (combo.getSelectedItem() == "centimeter")
-         {
-            return inner / 100;
-         }
-       else if (combo.getSelectedItem() == "inch")
-         {
-            return inner * 0.0254;
-         }
-       else if (combo.getSelectedItem() == "mile")
-         {
-            return inner * 1609.35; 
-         }
-       else if (combo.getSelectedItem() == "yard")
-         {
-            return inner * 0.9144;
-         }
-       else if (combo.getSelectedItem() == "milimeter")
-         {
-            return inner * 0.001;
-         }
-       else if (combo.getSelectedItem() == "nanometer")
-         {
-            return inner * 0.000000001;
-         }
-     return 0;
+     return inner * length.get((String) combo.getSelectedItem());
    
    }
    public double toUnit(double outer)// need to add "inch","mile","yard","milimeter","nanometer"
    {
-      if (combo2.getSelectedItem() == "meter")
-      {
-         return outer;
-      }
-      else if (combo2.getSelectedItem() == "kilometer")
-      {
-         return outer / 1000;
-      }
-      else if( combo2.getSelectedItem() == "centimeter")
-      {
-         return outer * 100;
-      }
-      else if (combo2.getSelectedItem() == "inch")
-      {
-         return outer * 39.37;
-      }
-      else if (combo2.getSelectedItem() == "mile")
-      {
-         return outer * 0.0006213689;
-      }
-      else if (combo2.getSelectedItem() == "yard")
-      {
-         return outer * 1.0936132983;
-      }
-      else if (combo2.getSelectedItem() == "milimeter")
-      {
-         return outer * 1000;
-      }
-      else if (combo2.getSelectedItem() == "nanometer")
-      {
-         return outer * 1000000000;
-      }
-      return 0;
+      return outer / length.get( (String) combo2.getSelectedItem());
     }
-   
+    
    
    
    
